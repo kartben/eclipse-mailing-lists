@@ -11,7 +11,8 @@
     "xpath": "*",
     "xmldom": "*",
     "parse5": "*",
-    "xmlserializer": "*"
+    "xmlserializer": "*",
+    "async": "*"
   },
   "licenses": [
     {

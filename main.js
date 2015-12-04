@@ -12,6 +12,8 @@ var parse5 = require('parse5');
 var xmlser = require('xmlserializer');
 var dom = require('xmldom').DOMParser;
 
+var async = require('async');
+
 
 var PROJECTS = [
     'iot.smarthome',
@@ -58,27 +60,36 @@ function computeMailingListsStats(mailmanList) {
         "x": "http://www.w3.org/1999/xhtml"
     });
 
-    for (var i in PROJECTS) {
-        var p = PROJECTS[i];
-
-        console.log('Requesting info for ' + p);
+    async.each(PROJECTS, function(project, callback) {
 
         request({
-            url: 'https://projects.eclipse.org/json/project/' + p,
+            url: 'https://projects.eclipse.org/json/project/' + project,
             json: true
         }, function(error, response, result) {
             if (!error && response.statusCode == 200) {
                 for (var project in result.projects) {
                     var nodes = select("//x:tr/x:td//x:strong[text() = '" + result.projects[project].dev_list.name + "']/text()/ancestor::x:tr/x:td[2]/text()", doc);
-                    // console.log(nodes[0].nodeValue);
 
-                    mailing_lists[project] = nodes[0].nodeValue.match(/(\d+) members/)[0]
+                    mailing_lists[project] = parseInt(nodes[0].nodeValue.match(/(\d+) members/)[1])
                 }
-
-                console.log(mailing_lists);
+                process.stdout.write(".");
+                callback();
             }
         });
-    }
+
+    }, function(err) {
+        console.log(" DONE!");
+        var sorted = [];
+        for (var p in mailing_lists) {
+            sorted.push([p, mailing_lists[p]])
+        }
+        sorted.sort(function(a, b) {
+            return b[1] - a[1]
+        });
+
+        console.log(sorted);
+    });
+
 }
 
 
