@@ -87,7 +87,9 @@ function computeMailingListsStats(mailmanList) {
             return b[1] - a[1]
         });
 
-        console.log(sorted);
+        for(var i in sorted) {
+            console.log(moment().format('DD/MM/YYYY'), '\t', sorted[i][0].replace('iot\.', ''), '\t', sorted[i][1])
+        }
     });
 
 }
