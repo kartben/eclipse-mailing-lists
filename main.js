@@ -33,7 +33,11 @@ var PROJECTS = [
     'iot.risev2g',
     'iot.4diac',
     'iot.vorto',
-    'iot.paho.incubator'
+    'iot.paho.incubator',
+    'iot.hawkbit',
+    'iot.tiaki',
+    'iot.tinydtls',
+    'iot.hono'
 ]
 
 var DATES = []
@@ -88,7 +92,7 @@ function computeMailingListsStats(mailmanList) {
         });
 
         for(var i in sorted) {
-            console.log(moment().format('DD/MM/YYYY'), '\t', sorted[i][0].replace('iot\.', ''), '\t', sorted[i][1])
+            console.log(moment().format('DD-MMM-YYYY') + '\t' + sorted[i][0].replace('iot\.', '').trim(), '\t' + sorted[i][1])
         }
     });
 
