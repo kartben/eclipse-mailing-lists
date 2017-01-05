@@ -79,7 +79,7 @@ function computeMailingListsStats(mailmanList) {
             if (!error && response.statusCode == 200) {
                 for (var project in result.projects) {
                     var nodes = select("//x:tr/x:td//x:strong[text() = '" + result.projects[project].dev_list.name + "']/text()/ancestor::x:tr/x:td[2]/text()", doc);
-                 console.log ( project , result.projects[project].dev_list.name,  "\n");
+                // console.log ( project , result.projects[project].dev_list.name,  "\n");
                     mailing_lists[project] = parseInt(nodes[0].nodeValue.match(/(\d+) members?/)[1])
                 }
                 process.stdout.write(".");
